@@ -2,40 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Брендовая палитра */
-@layer utilities {
-  .text-brand-800 { color: #215a2e; }
-  .bg-brand-50 { background-color: #f3faf5; }
-  .border-brand-100 { border-color: #d7efe0; }
-  .bg-brand-600 { background-color: #3e8f4d; }
-  .border-brand-200 { border-color: #bfe2cb; }
-  .bg-danger { background-color: #dc2626; }
-  .text-danger { color: #dc2626; }
-  .rounded-xl2 { border-radius: 0.8rem; }
-  .rounded-2xl2 { border-radius: 1.25rem; }
-}
-
-:root {
-  --safe-padding: env(safe-area-inset-top) env(safe-area-inset-right)
-    env(safe-area-inset-bottom) env(safe-area-inset-left);
-}
-
+:root { --safe-padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }
 html, body, #root { height: 100%; }
-body {
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial,
-    "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
-}
+body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans"; background: #F8FAF9; }
 
-/* UI */
-.btn { @apply w-full py-4 text-lg font-semibold rounded-2xl shadow active:scale-[.98] transition; }
-.btn-primary { @apply bg-brand-600 text-white hover:opacity-95; }
+.btn { @apply w-full py-4 text-lg font-semibold rounded-2xl shadow-md active:scale-[.98] transition; }
+.btn-primary { @apply bg-brand text-white hover:bg-brandDark; }
 .btn-outline { @apply border border-slate-300 bg-white hover:bg-slate-100; }
-.btn-danger  { @apply bg-danger text-white; }
+.btn-danger { @apply bg-danger text-white; }
 
 .card { @apply bg-white rounded-2xl shadow p-4; }
 
-.input, .select {
-  @apply w-full rounded-xl border border-slate-300 px-4 py-3 text-lg outline-none focus:ring-2 focus:ring-brand-600;
-}
+.input, .select { @apply w-full rounded-xl border border-slate-300 px-4 py-3 text-lg outline-none focus:ring-2 focus:ring-brand; }
 .label { @apply block text-sm text-slate-600 mb-1; }
 .help  { @apply text-sm text-slate-500; }

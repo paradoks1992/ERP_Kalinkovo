@@ -1,17 +1,13 @@
-/** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,jsx}"
-  ],
+  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        brand: "#0E9F6E",
-        brandDark: "#0B7A54",
-        danger: "#E02424",
-        warning: "#F59E0B"
-      }
+        brand: { DEFAULT: "#3E8F4D", 50:"#F0F7F2",100:"#DBEDE1",200:"#B5D9C0",300:"#8DC49E",400:"#6BB285",500:"#4EA571",600:"#3E8F4D",700:"#2F6B3A",800:"#214C28",900:"#16351B" },
+        brandDark: "#2F6B3A",
+        danger: "#E53935"
+      },
+      borderRadius: { xl2: "14px" }
     }
   },
   plugins: []

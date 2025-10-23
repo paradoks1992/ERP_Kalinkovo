@@ -1,4 +1,3 @@
-// src/components/Toaster.jsx
 import React from 'react';
 const Ctx = React.createContext(null);
 

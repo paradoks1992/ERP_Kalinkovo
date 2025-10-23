@@ -1,4 +1,3 @@
-// src/components/ConfirmModal.jsx
 import React from 'react';
 
 export default function ConfirmModal({ open, title='Подтвердите', children, onCancel, onConfirm, confirmText='ОК'}){

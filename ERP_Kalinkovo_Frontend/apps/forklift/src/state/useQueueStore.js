@@ -11,16 +11,13 @@ export const useQueueStore = create(
       initOfflineQueue() {
         offlineQueue.onChange((size) => set({ pendingCount: size }));
         set({ pendingCount: offlineQueue.size() });
-
         const setOnline = () => set({ online: true });
         const setOffline = () => set({ online: false });
-
         window.addEventListener("online", setOnline);
         window.addEventListener("offline", setOffline);
       },
       setLastMessage(msg) {
         set({ lastMessage: msg });
-        // автоочистка
         if (msg) setTimeout(() => set({ lastMessage: "" }), 4000);
       }
     }),

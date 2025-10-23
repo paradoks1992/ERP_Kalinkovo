@@ -1,4 +1,5 @@
-// index.js
+// index.js — главный сервер backend ERP_Kalinkovo
+
 import "dotenv/config";
 import express from "express";
 import helmet from "helmet";
@@ -13,7 +14,7 @@ import { connectToDb } from "./db.js";
 import { verifyToken } from "./middleware/verifyToken.js";
 import { isAdmin } from "./middleware/isAdmin.js";
 
-// routes
+// ====== ROUTES ======
 import authRoutes from "./routes/auth.js";
 import adminRoutes from "./routes/admin.js";
 import productsRoutes from "./routes/products.routes.js";
@@ -27,22 +28,21 @@ import profileRoutes from "./routes/profile.js";
 import logsRoutes from "./routes/logs.routes.js";
 import usersRoutes from "./routes/users.routes.js";
 import tasksRoutes from "./routes/tasks.routes.js";
+import eventsRoutes from "./routes/events.routes.js"; // SSE
 
-// SSE
-import eventsRoutes from "./routes/events.routes.js";
-
+// ====== APP INIT ======
 const app = express();
-
-/* Base middlewares */
 app.disable("x-powered-by");
+
+// ====== SECURITY MIDDLEWARE ======
 app.use(
   helmet({
     crossOriginResourcePolicy: false,
-    contentSecurityPolicy: false, // не мешаем React/Vite
+    contentSecurityPolicy: false, // чтобы Vite/React не ломались
   })
 );
 
-// Разрешённые фронты (можно задать CORS_ORIGIN через .env, CSV)
+// ====== CORS CONFIGURATION ======
 const allowedOrigins = process.env.CORS_ORIGIN
   ? process.env.CORS_ORIGIN.split(",").map((o) => o.trim())
   : [
@@ -50,26 +50,42 @@ const allowedOrigins = process.env.CORS_ORIGIN
       "http://localhost:5174", // forklift
       "http://localhost:5175", // manager
       "http://localhost:5176", // monitor
+      /172\.\d+\.\d+\.\d+(:\d+)?$/, // локальная сеть (телефон, планшет)
     ];
 
 app.use(
   cors({
     origin: (origin, cb) => {
-      if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
+      if (
+        !origin ||
+        allowedOrigins.some((o) => {
+          if (typeof o === "string") return o === origin;
+          if (o instanceof RegExp) return o.test(origin);
+          return false;
+        })
+      ) {
+        return cb(null, true);
+      }
       return cb(new Error("CORS: Доступ запрещён"), false);
     },
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "Idempotency-Key", // ✅ разрешён для оффлайн-очереди
+      "X-Operation", // ✅ разрешён для идемпотентных операций
+    ],
   })
 );
-app.options(/.*/, cors());
+app.options(/.*/, cors()); // preflight-запросы
 
+// ====== BASE MIDDLEWARE ======
 app.use(express.json({ limit: "2mb" }));
 app.use(cookieParser());
 app.use(morgan("dev"));
 
-/* Health */
+// ====== HEALTH CHECK ======
 app.get("/health", async (_req, res) => {
   try {
     const pool = await connectToDb();
@@ -85,7 +101,7 @@ app.get("/health", async (_req, res) => {
   }
 });
 
-/* System status (admin only) */
+// ====== SYSTEM STATUS (ADMIN) ======
 app.get("/api/system/status", verifyToken, isAdmin, async (_req, res) => {
   try {
     const uptimeSec = process.uptime();
@@ -150,12 +166,11 @@ app.get("/api/system/status", verifyToken, isAdmin, async (_req, res) => {
   }
 });
 
-/* Routes */
+// ====== ROUTES ======
 // Публичные
 app.use("/api/auth", authRoutes);
 app.use("/api/monitor", monitorRoutes);
-// SSE
-app.use("/api/events", eventsRoutes);
+app.use("/api/events", eventsRoutes); // SSE-канал
 
 // После авторизации
 app.use("/api/storages", verifyToken, storagesRoutes);
@@ -172,23 +187,24 @@ app.use("/api/employees", verifyToken, isAdmin, employeesRoutes);
 app.use("/api/logs", verifyToken, isAdmin, logsRoutes);
 app.use("/api/products", verifyToken, isAdmin, productsRoutes);
 
-/* 404 */
+// ====== 404 ======
 app.use((_req, res) => {
   res.status(404).json({ message: "Not Found" });
 });
 
-/* Global error */
+// ====== GLOBAL ERROR HANDLER ======
 app.use((err, _req, res, _next) => {
   logger.error("[GLOBAL ERROR]", { message: err.message, stack: err.stack });
   res.status(500).json({ message: "Internal server error" });
 });
 
-/* Startup */
+// ====== SERVER STARTUP ======
 const PORT = Number(process.env.PORT || 3000);
 const server = app.listen(PORT, async () => {
   await logger.info(`✅ API listening on http://localhost:${PORT}`);
 });
 
+// ====== GRACEFUL SHUTDOWN ======
 const gracefulShutdown = async () => {
   await logger.info("🛑 Server shutting down...");
   server.close(() => process.exit(0));

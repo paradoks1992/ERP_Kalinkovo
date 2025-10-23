@@ -96,9 +96,6 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
-      idb-keyval:
-        specifier: ^6.2.1
-        version: 6.2.1
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -106,30 +103,36 @@ importers:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
       react-hook-form:
-        specifier: ^7.52.1
+        specifier: ^7.53.0
         version: 7.65.0(react@18.3.1)
+      react-router-dom:
+        specifier: ^6.26.2
+        version: 6.30.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       uuid:
         specifier: ^9.0.1
         version: 9.0.1
-      vite:
-        specifier: 5.2.10
-        version: 5.2.10
+      zod:
+        specifier: ^3.23.8
+        version: 3.23.8
       zustand:
-        specifier: ^4.5.2
+        specifier: ^4.5.5
         version: 4.5.5(@types/react@18.3.26)(react@18.3.1)
     devDependencies:
       '@vitejs/plugin-react':
-        specifier: ^5.0.4
-        version: 5.0.4(vite@5.2.10)
+        specifier: ^4.3.3
+        version: 4.7.0(vite@5.2.10)
       autoprefixer:
         specifier: ^10.4.20
         version: 10.4.21(postcss@8.5.6)
       postcss:
-        specifier: ^8.5.6
+        specifier: ^8.4.47
         version: 8.5.6
       tailwindcss:
-        specifier: ^3.4.18
+        specifier: ^3.4.14
         version: 3.4.18
+      vite:
+        specifier: 5.2.10
+        version: 5.2.10
 
   apps/manager:
     dependencies:
@@ -634,6 +637,9 @@ packages:
     resolution: {integrity: sha512-O3rHJzAQKamUz1fvE0Qaw0xSFqsA/yafi2iqeE0pvdFtCO1viYx8QL6f3Ln/aCCTLxs68SLf0KPM9eSeM8yBnA==}
     engines: {node: '>=14.0.0'}
 
+  '@rolldown/pluginutils@1.0.0-beta.27':
+    resolution: {integrity: sha512-+d0F4MKMCbeVUJwG96uQ4SgAznZNSq93I3V+9NHA4OpvqG8mRCpGdKmK8l/dl02h2CCDHwW2FqilnTyDcAnqjA==}
+
   '@rolldown/pluginutils@1.0.0-beta.38':
     resolution: {integrity: sha512-N/ICGKleNhA5nc9XXQG/kkKHJ7S55u0x0XUJbbkmdCnFuoRkM1Il12q9q0eX19+M7KKUEPw/daUPIRnxhcxAIw==}
 
@@ -781,6 +787,12 @@ packages:
 
   '@types/trusted-types@2.0.7':
     resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
+
+  '@vitejs/plugin-react@4.7.0':
+    resolution: {integrity: sha512-gUu9hwfWvvEDBBmgtAowQCojwZmJ5mcLn3aufeCsitijs3+f2NsrPtlAWIR6OPiqljl96GVCUbLe0HyqIpVaoA==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+    peerDependencies:
+      vite: ^4.2.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
 
   '@vitejs/plugin-react@5.0.4':
     resolution: {integrity: sha512-La0KD0vGkVkSk6K+piWDKRUyg8Rl5iAIKRMH0vMJI0Eg47bq1eOxmoObAaQG37WMW9MSyk7Cs8EIWwJC1PtzKA==}
@@ -1104,9 +1116,6 @@ packages:
   html2canvas@1.4.1:
     resolution: {integrity: sha512-fPU6BHNpsyIhr8yyMpTLLxAbkaK8ArIBcmZIRiBLiDhjeqvXolaEmDGmELFuX9I4xDcaKKcJl+TKZLqruBbmWA==}
     engines: {node: '>=8.0.0'}
-
-  idb-keyval@6.2.1:
-    resolution: {integrity: sha512-8Sb3veuYCyrZL+VBt9LJfZjLUPWVvqn8tG28VqYNFCo43KHcKuq+b4EiXGeuaLAQWL2YmyDgMp2aSpH9JHsEQg==}
 
   iobuffer@5.4.0:
     resolution: {integrity: sha512-DRebOWuqDvxunfkNJAlc3IzWIPD5xVxwUNbHr7xKB8E6aLJxIPfNX3CoMJghcFjpv6RWQsrcJbghtEwSPoJqMA==}
@@ -1929,6 +1938,8 @@ snapshots:
 
   '@remix-run/router@1.23.0': {}
 
+  '@rolldown/pluginutils@1.0.0-beta.27': {}
+
   '@rolldown/pluginutils@1.0.0-beta.38': {}
 
   '@rollup/rollup-android-arm-eabi@4.52.5':
@@ -2038,6 +2049,18 @@ snapshots:
 
   '@types/trusted-types@2.0.7':
     optional: true
+
+  '@vitejs/plugin-react@4.7.0(vite@5.2.10)':
+    dependencies:
+      '@babel/core': 7.28.4
+      '@babel/plugin-transform-react-jsx-self': 7.27.1(@babel/core@7.28.4)
+      '@babel/plugin-transform-react-jsx-source': 7.27.1(@babel/core@7.28.4)
+      '@rolldown/pluginutils': 1.0.0-beta.27
+      '@types/babel__core': 7.20.5
+      react-refresh: 0.17.0
+      vite: 5.2.10
+    transitivePeerDependencies:
+      - supports-color
 
   '@vitejs/plugin-react@5.0.4(vite@5.2.10)':
     dependencies:
@@ -2414,8 +2437,6 @@ snapshots:
       css-line-break: 2.1.0
       text-segmentation: 1.0.3
     optional: true
-
-  idb-keyval@6.2.1: {}
 
   iobuffer@5.4.0: {}
 

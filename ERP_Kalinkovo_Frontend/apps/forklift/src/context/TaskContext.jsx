@@ -1,13 +1,6 @@
-// src/context/TaskContext.jsx
 import React, { createContext, useContext, useEffect, useState } from "react";
-import {
-  listAssignedTasks,
-  acceptTask,
-  completeTask,
-  progressTask,
-} from "@/lib/api";
+import { listAssignedTasks, acceptTask, completeTask, progressTask } from "@/lib/api";
 import { useQueueStore } from "@/state/useQueueStore.js";
-
 const TaskCtx = createContext(null);
 
 export function TaskProvider({ children }) {
@@ -35,27 +28,12 @@ export function TaskProvider({ children }) {
   }, []);
 
   const value = {
-    tasks,
-    activeTask,
-    setActiveTask,
-    refresh: load,
-    async accept(taskId) {
-      await acceptTask(taskId);
-      setLastMessage("Задача принята");
-      await load();
-    },
-    async complete(taskId) {
-      await completeTask(taskId);
-      setLastMessage("Задача выполнена");
-      await load();
-    },
-    async progress(taskId, qty, comment) {
-      await progressTask(taskId, qty, comment);
-      await load();
-    },
+    tasks, activeTask, setActiveTask, refresh: load,
+    async accept(taskId) { await acceptTask(taskId); setLastMessage("Задача принята"); await load(); },
+    async complete(taskId) { await completeTask(taskId); setLastMessage("Задача выполнена"); await load(); },
+    async progress(taskId, qty, comment) { await progressTask(taskId, qty, comment); await load(); }
   };
 
   return <TaskCtx.Provider value={value}>{children}</TaskCtx.Provider>;
 }
-
 export const useTasks = () => useContext(TaskCtx);
