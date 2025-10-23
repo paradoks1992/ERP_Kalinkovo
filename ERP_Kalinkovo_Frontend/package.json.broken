@@ -1,0 +1,14 @@
+@'
+{
+  "name": "erp_kalinkovo_frontend",
+  "private": true,
+  "packageManager": "pnpm@10.19.0",
+  "scripts": {
+    "dev:monitor": "pnpm --filter @apps/monitor dev",
+    "build:monitor": "pnpm --filter @apps/monitor build",
+    "dev": "pnpm -r --parallel dev",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint"
+  }
+}
+'@ | Set-Content -Encoding utf8 "C:\ERP_Kalinkovo\ERP_Kalinkovo_Frontend\package.json"

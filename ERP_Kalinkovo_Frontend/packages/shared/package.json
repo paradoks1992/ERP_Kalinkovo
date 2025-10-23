@@ -1,0 +1,11 @@
+{
+  "name": "@kalinkovo/shared",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./api": "./src/api.js",
+    "./utils": "./src/utils.js"
+  }
+}

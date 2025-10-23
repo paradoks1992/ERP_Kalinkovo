@@ -1,0 +1,53 @@
+{
+  "name": "kalinkovo-backend",
+  "version": "1.0.0",
+  "description": "Kalinkovo - Учет яблок (FullStack)",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "check-db": "node src/scripts/check-database.cjs",
+    "test-db": "node src/scripts/test-database.cjs",
+    "reset-password": "node src/scripts/reset-admin-password.cjs",
+    "check-users": "node src/scripts/check-users.js",
+    "force-reset": "node src/scripts/force-reset-password.js",
+    "validate": "node src/scripts/test-validation.js",
+    "pm2:start": "pm2 start ecosystem.config.cjs",
+    "pm2:stop": "pm2 stop all && pm2 delete all",
+    "pm2:flush": "pm2 flush",
+    "restart-clean": "pm2 stop all && pm2 delete all && pm2 flush && pm2 start ecosystem.config.cjs"
+  },
+  "keywords": [
+    "apple",
+    "warehouse",
+    "inventory",
+    "express",
+    "mssql",
+    "jwt"
+  ],
+  "author": "Kalinkovo Team",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.12.2",
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.1.0",
+    "express-validator": "^7.2.1",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.1",
+    "mssql": "^12.0.0"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0",
+    "nodemon": "^3.1.10"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
